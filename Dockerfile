@@ -1,1 +1,1 @@
-FROM unbuntu:xenial
+FROM ubuntu:xenial
