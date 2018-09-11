@@ -1,8 +1,5 @@
 FROM ubuntu:16.04
 
-#docker build -t csonzone/dsclub_jupyter .
-#docker run -it csonzone/dsclub_jupyter /bin/bash
-
 FROM debian:latest 
 #  $ docker build . -t continuumio/miniconda3:latest -t continuumio/miniconda3:4.5.4 
 #  $ docker run --rm -it continuumio/miniconda3:latest /bin/bash 
@@ -25,6 +22,14 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-4.5.4-Linux-x86_
     echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
     echo "conda activate base" >> ~/.bashrc
 
-ENV TINI_VERSION v0.16.1 
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /usr/bin/tini
-RUN chmod +x /usr/bin/tini
+RUN conda config --add channels defaults
+    conda config --add channels conda-forge
+    conda config --add channels bioconda
+
+COPY environment.yml environment.yml
+RUN conda env update -f environment.yml
+
+#docker build -t csonzone/dsclub_jupyter .
+#docker run -it csonzone/dsclub_jupyter /bin/bash
+
+
